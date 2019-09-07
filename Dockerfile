@@ -3,5 +3,6 @@ WORKDIR /app
 COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
-RUN go run main.go
+RUN go build -o gotodo ./
+CMD ./gotodo
 

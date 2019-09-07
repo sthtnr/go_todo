@@ -37,6 +37,22 @@ var psqlInfo = fmt.Sprintf("host=%s port=%s user=%s "+"dbname=%s sslmode=desable
 // 	}
 // }
 
+func Create_table() {
+	db, err := sql.Open("postgres", psqlInfo)
+	if err != nil {
+		panic(err)
+	}
+	sqlStatement := `CREATE TABLE IF NOT EXISTS todo_table (
+		Tasknumber integer PRIMARY KEY,
+		Content text NOT NULL,
+		Deadline date NOT NULL DEFAULT current_date + 3
+		`
+	_, err = db.Exec(sqlStatement)
+	if err != nil {
+		panic(err)
+	}
+}
+
 func GetTodo_z(ts int) Todo_table {
 	//TODO: とりあえずpanic()にしてるところをちゃんと実装
 	db, err := sql.Open("postgres", psqlInfo)

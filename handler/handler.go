@@ -3,9 +3,10 @@ package handler
 import (
 	"encoding/json"
 	"log"
-	"math/rand"
 	"net/http"
 	"strconv"
+
+	"github.com/sthtnr/go_todo/command"
 
 	"github.com/gorilla/mux"
 )
@@ -17,16 +18,11 @@ type Todo struct {
 }
 
 // Init todos var as a slice Todo struct
-var todos []Todo
+// var todos []Todo
 
-func handler() {
+func Handler() {
 	// init router
 	r := mux.NewRouter()
-
-	// Mock Data - @todo - implement DB
-	todos = append(todos, Todo{Tasknumber: "1", Content: "practice piano hard :3", Deadline: "2019/08/02"})
-	todos = append(todos, Todo{Tasknumber: "2", Content: "study english carefully ;>", Deadline: "2019/08/03"})
-	todos = append(todos, Todo{Tasknumber: "3", Content: "ｳｵｳｵ ₍₍🐟⁾⁾ ｳｵｳｵ", Deadline: "2019/08/04"})
 
 	// route handlers / endpoints
 	r.HandleFunc("/todo-list/", getTodos).Methods("GET")
@@ -38,23 +34,23 @@ func handler() {
 	log.Fatal(http.ListenAndServe(":8000", r))
 }
 
-// get all todos
-func getTodos(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(todos)
-}
-
 // get single todo
 func getTodo(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	params := mux.Vars(r) // get params
-	// loop through todos and find with id
-	for _, item := range todos {
-		if item.Tasknumber == params["task_number"] {
-			json.NewEncoder(w).Encode(item)
-			return
-		}
+	params := mux.Vars(r)
+	i, err := strconv.Atoi(params["task_number"])
+	if err != nil {
+		panic(err)
 	}
+	receiver := command.GetTodo_z(i)
+	json.NewEncoder(w).Encode(receiver)
+}
+
+// get all todos
+func getTodos(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	receiver := command.GetTodos_z()
+	json.NewEncoder(w).Encode(receiver)
 }
 
 // create a new todo
@@ -62,38 +58,41 @@ func createTodo(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var todo Todo
 	_ = json.NewDecoder(r.Body).Decode(&todo)
-	todo.Tasknumber = strconv.Itoa(rand.Intn(1000000)) // Mock ID - @todo 連番で割り振られるようにする
-	todos = append(todos, todo)
-	json.NewEncoder(w).Encode(todo)
+	i, err := strconv.Atoi(todo.Tasknumber)
+	if err != nil {
+		panic(err)
+	}
+	receiver := command.CreateTodo_z(i, todo.Content, todo.Deadline)
+	json.NewEncoder(w).Encode(receiver)
 }
 
 // update todo
 func updateTodo(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
+	var todo Todo
+	_ = json.NewDecoder(r.Body).Decode(&todo)
 	params := mux.Vars(r)
-	for index, item := range todos {
-		if item.Tasknumber == params["task_number"] {
-			todos = append(todos[:index], todos[index+1:]...)
-			var todo Todo
-			_ = json.NewDecoder(r.Body).Decode(&todo)
-			todo.Tasknumber = params["task_number"]
-			todos = append(todos, todo)
-			json.NewEncoder(w).Encode(todo)
-			return
-		}
+	i, err := strconv.Atoi(params["todo_number"])
+	if err != nil {
+		panic(err)
 	}
-	json.NewEncoder(w).Encode(todos)
+	k, err := strconv.Atoi(todo.Tasknumber)
+	if err != nil {
+		panic(err)
+	}
+	receiver := command.UpdateTodo_z(i, k, todo.Content, todo.Deadline)
+	json.NewEncoder(w).Encode(receiver)
 }
 
 // delete todo
+// とりあえずdeleteに関しては何も返さないようにしてます今の所
 func deleteTodo(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(r)
-	for index, item := range todos {
-		if item.Tasknumber == params["task_number"] {
-			todos = append(todos[:index], todos[index+1:]...)
-			break
-		}
+	i, err := strconv.Atoi(params["todo_number"])
+	if err != nil {
+		panic(err)
 	}
-	json.NewEncoder(w).Encode(todos)
+	command.DeleteTodo_z(i)
+	// json.NewEncoder(w).Encode(receiver)
 }

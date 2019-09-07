@@ -9,7 +9,8 @@ services:
 
   go_script:
     build: .
-    ports: "8000:8000"
+    ports: 
+      - "8000:8000"
     depends_on:
       - db
 volumes:

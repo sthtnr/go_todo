@@ -27,7 +27,7 @@ var (
 	dbname = "my_database"
 )
 
-var psqlInfo = fmt.Sprintf("host=%s port=%s user=%s "+"dbname=%s sslmode=desable", host, port, user, dbname)
+var psqlInfo = fmt.Sprintf("host=%s port=%d user=%s "+"dbname=%s sslmode=disable", host, port, user, dbname)
 
 //TODO: 同scope内でerrが複数箇所あるから２回目以降の宣言時は「:=」でなく「=」にして対処ってなんかおかしくないか...
 // func main() {
@@ -42,10 +42,13 @@ func Create_table() {
 	if err != nil {
 		panic(err)
 	}
-	sqlStatement := `CREATE TABLE IF NOT EXISTS todo_table (
+	sqlStatement := `CREATE TABLE IF NOT EXISTS todo_table
+		(
 		Tasknumber integer PRIMARY KEY,
 		Content text NOT NULL,
 		Deadline date NOT NULL DEFAULT current_date + 3
+		);
+		INSERT INTO todo_table (Tasknumber, Content) VALUES (234, 'study!!');
 		`
 	_, err = db.Exec(sqlStatement)
 	if err != nil {
@@ -79,7 +82,7 @@ func GetTodos_z() []Todo_table {
 	if err != nil {
 		panic(err)
 	}
-	sqlStatement := `SELECT Tasknuber, Content, Deadline FROM todo_table;`
+	sqlStatement := `SELECT Tasknumber, Content, Deadline FROM todo_table;`
 	var todos []Todo_table
 	rows, err := db.Query(sqlStatement)
 	if err != nil {

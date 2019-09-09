@@ -6,6 +6,6 @@ import (
 )
 
 func main() {
-	handler.Handler()
 	command.Create_table()
+	handler.Handler()
 }

@@ -25,11 +25,11 @@ func Handler() {
 	r := mux.NewRouter()
 
 	// route handlers / endpoints
-	r.HandleFunc("/todo-list/", getTodos).Methods("GET")
-	r.HandleFunc("/todo-list/{task_number}", getTodo).Methods("GET")
-	r.HandleFunc("/todo-list/create-todo", createTodo).Methods("POST")
-	r.HandleFunc("/todo-list/update-todo/{task_number}", updateTodo).Methods("PUT")
-	r.HandleFunc("/todo-list/delete-todo/{task_number}", deleteTodo).Methods("DELETE")
+	r.HandleFunc("/todo/{task_number}", getTodo).Methods("GET")
+	r.HandleFunc("/todo/", getTodos).Methods("GET")
+	r.HandleFunc("/todo/", createTodo).Methods("POST")
+	r.HandleFunc("/todo/{task_number}", updateTodo).Methods("PUT")
+	r.HandleFunc("/todo/{task_number}", deleteTodo).Methods("DELETE")
 
 	log.Fatal(http.ListenAndServe(":8000", r))
 }

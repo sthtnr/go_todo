@@ -72,7 +72,7 @@ func updateTodo(w http.ResponseWriter, r *http.Request) {
 	var todo Todo
 	_ = json.NewDecoder(r.Body).Decode(&todo)
 	params := mux.Vars(r)
-	i, err := strconv.Atoi(params["todo_number"])
+	i, err := strconv.Atoi(params["task_number"])
 	if err != nil {
 		panic(err)
 	}
@@ -89,7 +89,7 @@ func updateTodo(w http.ResponseWriter, r *http.Request) {
 func deleteTodo(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(r)
-	i, err := strconv.Atoi(params["todo_number"])
+	i, err := strconv.Atoi(params["task_number"])
 	if err != nil {
 		panic(err)
 	}

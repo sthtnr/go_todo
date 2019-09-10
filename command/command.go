@@ -48,8 +48,9 @@ func Create_table() {
 		Content text NOT NULL,
 		Deadline date NOT NULL DEFAULT current_date + 3
 		);
-		INSERT INTO todo_table (Tasknumber, Content) VALUES (234, 'study!!');
 		`
+	// INSERT INTO todo_table (Tasknumber, Content) VALUES (234, 'study!!');
+	// `
 	_, err = db.Exec(sqlStatement)
 	if err != nil {
 		panic(err)
@@ -125,7 +126,7 @@ func UpdateTodo_z(t_before int, t_after int, c string, d string) Todo_table {
 	if err != nil {
 		panic(err)
 	}
-	sqlStatement := `UPDATE todo_table SET Tasknumber=$1 Content=$2, Deadline=$3
+	sqlStatement := `UPDATE todo_table SET Tasknumber=$1, Content=$2, Deadline=$3
 	WHERE Tasknumber = $4
 	RETURNING Tasknumber, Content, Deadline;`
 	var todo Todo_table

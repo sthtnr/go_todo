@@ -46,7 +46,7 @@ func Create_table() {
 		(
 		Tasknumber integer PRIMARY KEY,
 		Content text NOT NULL,
-		Deadline date NOT NULL DEFAULT current_date + 3
+		Deadline date NOT NULL DEFAULT CURRENT_DATE + 3
 		);
 		`
 	// queries for mock rows
@@ -66,7 +66,9 @@ func GetTodo_z(ts int) Todo_table {
 	if err != nil {
 		panic(err)
 	}
-	sqlStatement := `SELECT * FROM todo_table WHERE Tasknumber=$1;`
+	// sqlStatement := `SELECT * FROM todo_table WHERE Tasknumber=$1;`
+	sqlStatement := `SELECT Tasknumber, Content,
+									TO_CHAR(Deadline, 'yyyy/mm/dd HH24:MI') FROM todo_table WHERE Tasknumber=$1;`
 	var todo Todo_table
 	row := db.QueryRow(sqlStatement, ts)
 	err = row.Scan(&todo.Tasknumber, &todo.Content, &todo.Deadline)
@@ -86,7 +88,9 @@ func GetTodos_z() []Todo_table {
 	if err != nil {
 		panic(err)
 	}
-	sqlStatement := `SELECT Tasknumber, Content, Deadline FROM todo_table;`
+	// sqlStatement := `SELECT Tasknumber, Content, Deadline FROM todo_table;`
+	sqlStatement := `SELECT Tasknumber, Content,
+									TO_CHAR(Deadline, 'yyyy/mm/dd HH24:MI') FROM todo_table;`
 	var todos []Todo_table
 	rows, err := db.Query(sqlStatement)
 	if err != nil {

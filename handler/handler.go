@@ -30,6 +30,7 @@ func Handler() {
 	r.HandleFunc("/todo/", createTodo).Methods("POST")
 	r.HandleFunc("/todo/{task_number}", updateTodo).Methods("PUT")
 	r.HandleFunc("/todo/{task_number}", deleteTodo).Methods("DELETE")
+	r.HandleFunc("/todo/", deleteTodos).Methods("DELETE")
 
 	log.Fatal(http.ListenAndServe(":8000", r))
 }
@@ -95,4 +96,10 @@ func deleteTodo(w http.ResponseWriter, r *http.Request) {
 	}
 	command.DeleteTodo_z(i)
 	// json.NewEncoder(w).Encode(receiver)
+}
+
+// delete all todos
+func deleteTodos(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	command.DeleteTodos_z()
 }

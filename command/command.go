@@ -155,3 +155,15 @@ func DeleteTodo_z(t int) {
 		panic(err)
 	}
 }
+
+func DeleteTodos_z() {
+	db, err := sql.Open("postgres", psqlInfo)
+	if err != nil {
+		panic(err)
+	}
+	sqlStatement := `DELETE FROM todo_table;`
+	_, err = db.Exec(sqlStatement)
+	if err != nil {
+		panic(err)
+	}
+}

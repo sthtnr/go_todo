@@ -4,6 +4,8 @@ import '../style/App.scss';
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
 import MakeTodo from './MakeTodo';
 import DeleteAllTodos from './DeleteAllTodos';
+import DeleteTodo from './DeleteTodo';
+import UpdateTodo from './UpdateTodo';
 
 export default class App extends React.Component {
   state = {
@@ -64,16 +66,16 @@ const CardContents = props => {
               {props.todos.map(todo => (
                 <div key={todo.Tasknumber}>
                   <div className='main__card__inner-first'>
-                    <span>
-                      {todo.Tasknumber}: {todo.Content}
-                    </span>
+                    {todo.Tasknumber}: {todo.Content}
                   </div>
                   <div className='main__card__inner-second'>
                     <span>{todo.Deadline}</span>
                     <span>
-                      <button type='button' className='btn-icon'>
-                        <i className='fa fa-pencil-alt'></i>
-                      </button>
+                      <UpdateTodo
+                        todoTaskNumber={todo.Tasknumber}
+                        todoContent={todo.Content}
+                        todoDeadline={todo.Deadline}
+                      />
                     </span>
                     <span>
                       <button type='button' className='btn-icon'>
@@ -81,9 +83,7 @@ const CardContents = props => {
                       </button>
                     </span>
                     <span>
-                      <button type='button' className='btn-icon'>
-                        <i className='fa fa-ban' aria-hidden='true'></i>
-                      </button>
+                      <DeleteTodo todoTaskNumber={todo.Tasknumber} />
                     </span>
                   </div>
                   <hr />

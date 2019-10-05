@@ -59,7 +59,7 @@ const MyVerticallyCenteredModal = props => {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button type='submit' onClick={props.onHide}>
+          <Button variant='success' type='submit' onClick={props.onHide}>
             作成
           </Button>
         </Modal.Footer>
@@ -73,7 +73,11 @@ const MakeTodo = () => {
 
   return (
     <div>
-      <Button className='main__btn' onClick={() => setModalShow(true)}>
+      <Button
+        variant='success'
+        className='main__btn'
+        onClick={() => setModalShow(true)}
+      >
         作成
       </Button>
 

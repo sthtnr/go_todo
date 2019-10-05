@@ -26,7 +26,7 @@ const MyVerticallyCenteredModal = props => {
       <form onSubmit={handleSubmit}>
         <Modal.Body>全てのTodoが消去されます</Modal.Body>
         <Modal.Footer>
-          <Button type='submit' onClick={props.onHide}>
+          <Button variant='danger' type='submit' onClick={props.onHide}>
             全て消去
           </Button>
         </Modal.Footer>
@@ -40,7 +40,11 @@ const DeleteAllTodos = () => {
 
   return (
     <div>
-      <Button className='main__btn' onClick={() => setModalShow(true)}>
+      <Button
+        variant='danger'
+        className='main__btn'
+        onClick={() => setModalShow(true)}
+      >
         全て消去
       </Button>
 

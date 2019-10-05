@@ -6,13 +6,9 @@ import '../style/DeleteAllTodos.scss';
 import { Container, Row, Col, Button, Card, Modal } from 'react-bootstrap';
 
 const MyVerticallyCenteredModal = props => {
-  const [taskNumber, setTaskNumber] = React.useState(4649);
   const handleSubmit = event => {
     event.preventDefault();
-    const requestData = {
-      task_number: taskNumber,
-    };
-    axios.delete('http://localhost:3000/todo/', requestData).then(res => {
+    axios.delete('http://localhost:3000/todo/').then(res => {
       console.log(res);
       console.log(res.data);
     });

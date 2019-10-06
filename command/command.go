@@ -96,7 +96,7 @@ func GetTodos_z() []Todo_table {
 	if err != nil {
 		panic(err)
 	}
-	// defer db.Close()
+	defer db.Close()
 	for rows.Next() {
 		var todo Todo_table
 		err = rows.Scan(&todo.Id, &todo.Content, &todo.Deadline)

@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import '../style/App.scss';
 import '../style/MakeTodo.scss';
-import { Container, Row, Col, Button, Card, Modal } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 
 const MyVerticallyCenteredModal = props => {
   const [content, setContent] = React.useState(null);

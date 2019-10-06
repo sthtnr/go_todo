@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import '../style/App.scss';
-import { Container, Row, Col, Button, Card } from 'react-bootstrap';
+import { Container, Row, Col, Card } from 'react-bootstrap';
 import MakeTodo from './MakeTodo';
 import DeleteAllTodos from './DeleteAllTodos';
 import DeleteTodo from './DeleteTodo';

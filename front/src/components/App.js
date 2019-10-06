@@ -56,8 +56,15 @@ export default class App extends React.Component {
 }
 
 const CardContents = props => {
+  const handleCheckById = i => {
+    let textStyle = document.getElementById(i).style.textDecoration;
+    if (textStyle === '') {
+      document.getElementById(i).style.textDecoration = 'line-through';
+    } else {
+      document.getElementById(i).style.textDecoration = '';
+    }
+  };
   const todoIsNull = props.todoIsNull;
-  const [isChecked, setIsChecked] = React.useState(false);
   if (todoIsNull) {
     return (
       <Row>
@@ -77,7 +84,7 @@ const CardContents = props => {
             {props.todos.map(todo => (
               <div key={todo.Id}>
                 <div className='main__card__inner-first'>
-                  <span className={isChecked ? 'is-checked' : null}>
+                  <span id={todo.Id}>
                     {props.todos.indexOf(todo) + 1}: {todo.Content}
                   </span>
                 </div>
@@ -97,8 +104,7 @@ const CardContents = props => {
                       type='button'
                       className='btn-icon'
                       onClick={() => {
-                        setIsChecked(!isChecked);
-                        console.log(todo.Content);
+                        handleCheckById(todo.Id);
                       }}
                     >
                       <i className='fa fa-check' aria-hidden='true'></i>

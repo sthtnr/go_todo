@@ -12,14 +12,12 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       todos: [],
-      todoIsNull: true,
     };
   }
   componentDidMount() {
     axios.get('http://localhost:3000/todo/').then(res => {
       const todos = res.data;
       this.setState({ todos });
-      this.setState({ todoIsNull: todos === null ? true : false });
     });
   }
   render() {
@@ -33,16 +31,22 @@ export default class App extends React.Component {
             <Row>
               <Col sm={3}></Col>
               <Col sm={3}>
-                <MakeTodo todoNextNumber={this.state.todos.length + 1} />
+                <MakeTodo
+                  todoNextNumber={
+                    this.state.todos === null ? 1 : this.state.todos.length + 1
+                  }
+                  view={this.componentDidMount.bind(this)}
+                />
               </Col>
               <Col sm={3}>
-                <DeleteAllTodos />
+                <DeleteAllTodos view={this.componentDidMount.bind(this)} />
               </Col>
               <Col sm={3}></Col>
             </Row>
             <CardContents
-              todoIsNull={this.state.todoIsNull}
+              todoIsNull={this.state.todos === null}
               todos={this.state.todos}
+              view={this.componentDidMount.bind(this)}
             />
           </main>
         </Container>
@@ -85,6 +89,7 @@ const CardContents = props => {
                       todoIndex={props.todos.indexOf(todo) + 1}
                       todoContent={todo.Content}
                       todoDeadline={todo.Deadline}
+                      view={props.view}
                     />
                   </span>
                   <span>
@@ -105,6 +110,7 @@ const CardContents = props => {
                       todoIndex={props.todos.indexOf(todo) + 1}
                       todoContent={todo.Content}
                       todoDeadline={todo.Deadline}
+                      view={props.view}
                     />
                   </span>
                 </div>

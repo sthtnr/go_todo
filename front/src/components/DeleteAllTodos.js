@@ -9,13 +9,13 @@ const MyVerticallyCenteredModal = props => {
   const handleSubmit = event => {
     event.preventDefault();
     axios.delete('http://localhost:3000/todo/').then(res => {
-      console.log(res);
-      console.log(res.data);
+      props.view();
     });
   };
   return (
     <Modal
-      {...props}
+      show={props.show}
+      onHide={props.onHide}
       size='lg'
       aria-labelledby='contained-modal-title-vcenter'
       centered
@@ -35,7 +35,7 @@ const MyVerticallyCenteredModal = props => {
   );
 };
 
-const DeleteAllTodos = () => {
+const DeleteAllTodos = props => {
   const [modalShow, setModalShow] = React.useState(false);
 
   return (
@@ -51,6 +51,7 @@ const DeleteAllTodos = () => {
       <MyVerticallyCenteredModal
         show={modalShow}
         onHide={() => setModalShow(false)}
+        view={props.view}
       />
     </div>
   );

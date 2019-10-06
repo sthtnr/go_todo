@@ -20,8 +20,7 @@ const MyVerticallyCenteredModal = props => {
       deadline: deadline,
     };
     axios.post('http://localhost:3000/todo/', requestData).then(res => {
-      console.log(res);
-      console.log(res.data);
+      props.view();
     });
   };
   return (
@@ -77,6 +76,7 @@ const MakeTodo = props => {
         show={modalShow}
         onHide={() => setModalShow(false)}
         todoNextNumber={props.todoNextNumber}
+        view={props.view}
       />
     </div>
   );

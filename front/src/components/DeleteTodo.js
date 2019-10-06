@@ -12,8 +12,7 @@ const MyVerticallyCenteredModal = props => {
   const handleSubmit = event => {
     event.preventDefault();
     axios.delete(`http://localhost:3000/todo/${todoId}`).then(res => {
-      console.log(res);
-      console.log(res.data);
+      props.view();
     });
   };
   return (
@@ -64,6 +63,7 @@ const DeleteTodo = props => {
         todoIndex={props.todoIndex}
         todoContent={props.todoContent}
         todoDeadline={props.todoDeadline}
+        view={props.view}
       />
     </React.Fragment>
   );

@@ -30,6 +30,7 @@ const MyVerticallyCenteredModal = props => {
     axios.put(`http://localhost:3000/todo/${todoId}`, requestData).then(res => {
       console.log(res);
       console.log(res.data);
+      props.view();
     });
   };
   return (
@@ -95,6 +96,7 @@ const UpdateTodo = props => {
         todoIndex={props.todoIndex}
         todoContent={props.todoContent}
         todoDeadline={props.todoDeadline}
+        view={props.view}
       />
     </React.Fragment>
   );

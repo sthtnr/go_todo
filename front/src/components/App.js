@@ -30,7 +30,7 @@ export default class App extends React.Component {
             <Row>
               <Col sm={3}></Col>
               <Col sm={3}>
-                <MakeTodo />
+                <MakeTodo todoNextNumber={this.state.todos.length + 1} />
               </Col>
               <Col sm={3}>
                 <DeleteAllTodos />
@@ -71,7 +71,7 @@ const CardContents = props => {
               <div key={todo.Id}>
                 <div className='main__card__inner-first'>
                   <span className={isChecked ? 'is-checked' : null}>
-                    {todo.Id}: {todo.Content}
+                    {props.todos.indexOf(todo) + 1}: {todo.Content}
                   </span>
                 </div>
                 <div className='main__card__inner-second'>
@@ -79,6 +79,7 @@ const CardContents = props => {
                   <span>
                     <UpdateTodo
                       todoId={todo.Id}
+                      todoIndex={props.todos.indexOf(todo) + 1}
                       todoContent={todo.Content}
                       todoDeadline={todo.Deadline}
                     />
@@ -98,6 +99,7 @@ const CardContents = props => {
                   <span>
                     <DeleteTodo
                       todoId={todo.Id}
+                      todoIndex={props.todos.indexOf(todo) + 1}
                       todoContent={todo.Content}
                       todoDeadline={todo.Deadline}
                     />

@@ -30,7 +30,7 @@ const MyVerticallyCenteredModal = props => {
       <form onSubmit={handleSubmit}>
         <Modal.Body>
           <p>以下のTodoが消去されます</p>
-          <div>タスク番号: {todoId}</div>
+          <div>タスク番号: {props.todoIndex}</div>
           <div>内容: {todoContent}</div>
           <div>締め切り: {todoDeadline}</div>
         </Modal.Body>
@@ -61,6 +61,7 @@ const DeleteTodo = props => {
         show={modalShow}
         onHide={() => setModalShow(false)}
         todoId={props.todoId}
+        todoIndex={props.todoIndex}
         todoContent={props.todoContent}
         todoDeadline={props.todoDeadline}
       />

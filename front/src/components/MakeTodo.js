@@ -26,7 +26,8 @@ const MyVerticallyCenteredModal = props => {
   };
   return (
     <Modal
-      {...props}
+      show={props.show}
+      onHide={props.onHide}
       size='lg'
       aria-labelledby='contained-modal-title-vcenter'
       centered
@@ -38,7 +39,7 @@ const MyVerticallyCenteredModal = props => {
         <Modal.Body>
           <div className='control'>
             <label htmlFor='tasknumber'>タスク番号</label>
-            とりあえず保留
+            {props.todoNextNumber}
           </div>
           <div className='control'>
             <label htmlFor='content'>内容</label>
@@ -59,7 +60,7 @@ const MyVerticallyCenteredModal = props => {
   );
 };
 
-const MakeTodo = () => {
+const MakeTodo = props => {
   const [modalShow, setModalShow] = React.useState(false);
 
   return (
@@ -75,6 +76,7 @@ const MakeTodo = () => {
       <MyVerticallyCenteredModal
         show={modalShow}
         onHide={() => setModalShow(false)}
+        todoNextNumber={props.todoNextNumber}
       />
     </div>
   );

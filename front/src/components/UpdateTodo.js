@@ -47,7 +47,7 @@ const MyVerticallyCenteredModal = props => {
         <Modal.Body>
           <div className='control'>
             <label htmlFor='tasknumber'>タスク番号</label>
-            とりあえず保留
+            {props.todoIndex}
           </div>
           <div className='control'>
             <label htmlFor='content'>内容</label>
@@ -92,6 +92,7 @@ const UpdateTodo = props => {
         show={modalShow}
         onHide={() => setModalShow(false)}
         todoId={props.todoId}
+        todoIndex={props.todoIndex}
         todoContent={props.todoContent}
         todoDeadline={props.todoDeadline}
       />

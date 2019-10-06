@@ -8,10 +8,13 @@ import DeleteTodo from './DeleteTodo';
 import UpdateTodo from './UpdateTodo';
 
 export default class App extends React.Component {
-  state = {
-    todos: [],
-    todoIsNull: true,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      todos: [],
+      todoIsNull: true,
+    };
+  }
   componentDidMount() {
     axios.get('http://localhost:3000/todo/').then(res => {
       const todos = res.data;

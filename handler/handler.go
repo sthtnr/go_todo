@@ -59,11 +59,7 @@ func createTodo(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var todo Todo
 	_ = json.NewDecoder(r.Body).Decode(&todo)
-	i, err := strconv.Atoi(todo.Tasknumber)
-	if err != nil {
-		panic(err)
-	}
-	receiver := command.CreateTodo_z(i, todo.Content, todo.Deadline)
+	receiver := command.CreateTodo_z(todo.Content, todo.Deadline)
 	json.NewEncoder(w).Encode(receiver)
 }
 
@@ -77,11 +73,7 @@ func updateTodo(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	k, err := strconv.Atoi(todo.Tasknumber)
-	if err != nil {
-		panic(err)
-	}
-	receiver := command.UpdateTodo_z(i, k, todo.Content, todo.Deadline)
+	receiver := command.UpdateTodo_z(i, todo.Content, todo.Deadline)
 	json.NewEncoder(w).Encode(receiver)
 }
 

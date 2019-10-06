@@ -21,31 +21,36 @@ export default class App extends React.Component {
   }
   render() {
     return (
-      <Container className='container'>
-        <header className='header'></header>
-        <main>
-          <Row>
-            <Col sm={3}></Col>
-            <Col sm={3}>
-              <MakeTodo />
-            </Col>
-            <Col sm={3}>
-              <DeleteAllTodos />
-            </Col>
-            <Col sm={3}></Col>
-          </Row>
-          <CardContents
-            todoIsNull={this.state.todoIsNull}
-            todos={this.state.todos}
-          />
-        </main>
-      </Container>
+      <React.Fragment>
+        <header>
+          <h1>Todo App</h1>
+        </header>
+        <Container className='container'>
+          <main>
+            <Row>
+              <Col sm={3}></Col>
+              <Col sm={3}>
+                <MakeTodo />
+              </Col>
+              <Col sm={3}>
+                <DeleteAllTodos />
+              </Col>
+              <Col sm={3}></Col>
+            </Row>
+            <CardContents
+              todoIsNull={this.state.todoIsNull}
+              todos={this.state.todos}
+            />
+          </main>
+        </Container>
+      </React.Fragment>
     );
   }
 }
 
 const CardContents = props => {
   const todoIsNull = props.todoIsNull;
+  const [isChecked, setIsChecked] = React.useState(false);
   if (todoIsNull) {
     return (
       <Row>
@@ -62,34 +67,45 @@ const CardContents = props => {
       <Col md={{ span: 6, offset: 3 }}>
         <Card className='main__card'>
           <Card.Body>
-            <div>
-              {props.todos.map(todo => (
-                <div key={todo.Tasknumber}>
-                  <div className='main__card__inner-first'>
-                    {todo.Tasknumber}: {todo.Content}
-                  </div>
-                  <div className='main__card__inner-second'>
-                    <span>{todo.Deadline}</span>
-                    <span>
-                      <UpdateTodo
-                        todoTaskNumber={todo.Tasknumber}
-                        todoContent={todo.Content}
-                        todoDeadline={todo.Deadline}
-                      />
-                    </span>
-                    <span>
-                      <button type='button' className='btn-icon'>
-                        <i className='fa fa-check' aria-hidden='true'></i>
-                      </button>
-                    </span>
-                    <span>
-                      <DeleteTodo todoTaskNumber={todo.Tasknumber} />
-                    </span>
-                  </div>
-                  <hr />
+            {props.todos.map(todo => (
+              <div key={todo.Id}>
+                <div className='main__card__inner-first'>
+                  <span className={isChecked ? 'is-checked' : null}>
+                    {todo.Id}: {todo.Content}
+                  </span>
                 </div>
-              ))}
-            </div>
+                <div className='main__card__inner-second'>
+                  <span>{todo.Deadline}</span>
+                  <span>
+                    <UpdateTodo
+                      todoId={todo.Id}
+                      todoContent={todo.Content}
+                      todoDeadline={todo.Deadline}
+                    />
+                  </span>
+                  <span>
+                    <button
+                      type='button'
+                      className='btn-icon'
+                      onClick={() => {
+                        setIsChecked(!isChecked);
+                        console.log(todo.Content);
+                      }}
+                    >
+                      <i className='fa fa-check' aria-hidden='true'></i>
+                    </button>
+                  </span>
+                  <span>
+                    <DeleteTodo
+                      todoId={todo.Id}
+                      todoContent={todo.Content}
+                      todoDeadline={todo.Deadline}
+                    />
+                  </span>
+                </div>
+                <hr />
+              </div>
+            ))}
           </Card.Body>
         </Card>
       </Col>

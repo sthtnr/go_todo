@@ -5,12 +5,8 @@ import '../style/MakeTodo.scss';
 import { Container, Row, Col, Button, Card, Modal } from 'react-bootstrap';
 
 const MyVerticallyCenteredModal = props => {
-  const [taskNumber, setTaskNumber] = React.useState(4649);
   const [content, setContent] = React.useState(null);
   const [deadline, setDeadline] = React.useState(new Date().toLocaleString());
-  const handleTaskNumberChange = event => {
-    setTaskNumber(event.target.value);
-  };
   const handleContentChange = event => {
     setContent(event.target.value);
   };
@@ -20,7 +16,6 @@ const MyVerticallyCenteredModal = props => {
   const handleSubmit = event => {
     event.preventDefault();
     const requestData = {
-      task_number: taskNumber,
       content: content,
       deadline: deadline,
     };
@@ -43,11 +38,7 @@ const MyVerticallyCenteredModal = props => {
         <Modal.Body>
           <div className='control'>
             <label htmlFor='tasknumber'>タスク番号</label>
-            <input
-              type='text'
-              id='tasknumber'
-              onChange={handleTaskNumberChange}
-            />
+            とりあえず保留
           </div>
           <div className='control'>
             <label htmlFor='content'>内容</label>

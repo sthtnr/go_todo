@@ -6,15 +6,11 @@ import '../style/DeleteAllTodos.scss';
 import { Container, Row, Col, Button, Card, Modal } from 'react-bootstrap';
 
 const MyVerticallyCenteredModal = props => {
-  const todoTaskNumber = props.todoTaskNumber;
+  const todoId = props.todoId;
   const todoContent = props.todoContent;
   const todoDeadline = props.todoDeadline;
-  const [TaskNumber, setTaskNumber] = React.useState(4649);
-  const [Content, setContent] = React.useState(null);
+  const [Content, setContent] = React.useState('お前はもう死んでいる');
   const [Deadline, setDeadline] = React.useState(new Date().toLocaleString());
-  const handleTaskNumberChange = event => {
-    setTaskNumber(event.target.value);
-  };
   const handleContentChange = event => {
     setContent(event.target.value);
   };
@@ -24,16 +20,17 @@ const MyVerticallyCenteredModal = props => {
   const handleSubmit = event => {
     event.preventDefault();
     const requestData = {
-      task_number: TaskNumber,
       content: Content,
       deadline: Deadline,
     };
-    axios
-      .put(`http://localhost:3000/todo/${todoTaskNumber}`, requestData)
-      .then(res => {
-        console.log(res);
-        console.log(res.data);
-      });
+    console.log('requestDataの中身は...');
+    console.log(requestData);
+    console.log('todoIdの中身は...');
+    console.log(todoId);
+    axios.put(`http://localhost:3000/todo/${todoId}`, requestData).then(res => {
+      console.log(res);
+      console.log(res.data);
+    });
   };
   return (
     <Modal
@@ -50,12 +47,7 @@ const MyVerticallyCenteredModal = props => {
         <Modal.Body>
           <div className='control'>
             <label htmlFor='tasknumber'>タスク番号</label>
-            <input
-              type='text'
-              id='tasknumber'
-              placeholder={todoTaskNumber}
-              onChange={handleTaskNumberChange}
-            />
+            とりあえず保留
           </div>
           <div className='control'>
             <label htmlFor='content'>内容</label>
@@ -99,7 +91,7 @@ const UpdateTodo = props => {
       <MyVerticallyCenteredModal
         show={modalShow}
         onHide={() => setModalShow(false)}
-        todoTaskNumber={props.todoTaskNumber}
+        todoId={props.todoId}
         todoContent={props.todoContent}
         todoDeadline={props.todoDeadline}
       />

@@ -88,9 +88,8 @@ func GetTodos_z() []Todo_table {
 	if err != nil {
 		panic(err)
 	}
-	// sqlStatement := `SELECT Id, Content, Deadline FROM todo_table;`
 	sqlStatement := `SELECT Id, Content,
-									TO_CHAR(Deadline, 'yyyy/mm/dd HH24:MI') FROM todo_table;`
+									TO_CHAR(Deadline, 'yyyy/mm/dd') FROM todo_table;`
 	var todos []Todo_table
 	rows, err := db.Query(sqlStatement)
 	if err != nil {

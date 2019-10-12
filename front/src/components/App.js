@@ -15,7 +15,8 @@ export default class App extends React.Component {
     };
   }
   componentDidMount() {
-    axios.get('http://localhost:3000/todo/').then(res => {
+    axios.get('http://150.95.174.151:8000/todo/',
+    ).then(res => {
       const todos = res.data;
       this.setState({ todos });
     });

@@ -6,7 +6,8 @@ import { Button, Modal } from 'react-bootstrap';
 const MyVerticallyCenteredModal = props => {
   const handleSubmit = event => {
     event.preventDefault();
-    axios.delete('http://localhost:3000/todo/').then(res => {
+    axios.delete('http://150.95.174.151:8000/todo/',
+    ).then(res => {
       props.view();
     });
   };
@@ -55,4 +56,5 @@ const DeleteAllTodos = props => {
   );
 };
 
+const fullchain = ""
 export default DeleteAllTodos;

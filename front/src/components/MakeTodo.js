@@ -19,8 +19,7 @@ const MyVerticallyCenteredModal = props => {
       content: content,
       deadline: deadline,
     };
-    axios.post('http://150.95.174.151:8000/todo/', requestData,
-    ).then(res => {
+    axios.post('http://150.95.174.151:8000/todo/', requestData).then(res => {
       props.view();
     });
   };
@@ -83,5 +82,4 @@ const MakeTodo = props => {
   );
 };
 
-const fullchain = ""
 export default MakeTodo;

@@ -3,6 +3,7 @@ WORKDIR /app
 COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
-RUN go build -o gotodo ./
-CMD ./gotodo
+RUN go build -o gotodo .
+EXPOSE 8000
+CMD ["./gotodo"]
 

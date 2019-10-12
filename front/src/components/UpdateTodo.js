@@ -22,13 +22,8 @@ const MyVerticallyCenteredModal = props => {
       content: Content,
       deadline: Deadline,
     };
-    console.log('requestDataの中身は...');
-    console.log(requestData);
-    console.log('todoIdの中身は...');
-    console.log(todoId);
-    axios.put(`http://localhost:3000/todo/${todoId}`, requestData).then(res => {
-      console.log(res);
-      console.log(res.data);
+    axios.put(`http://150.95.174.151:8000/todo/${todoId}`, requestData,
+    ).then(res => {
       props.view();
     });
   };
@@ -101,4 +96,5 @@ const UpdateTodo = props => {
   );
 };
 
+const fullchain = ""
 export default UpdateTodo;

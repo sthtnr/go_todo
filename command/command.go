@@ -3,6 +3,7 @@ package command
 import (
 	"database/sql"
 	"fmt"
+	"os"
 
 	_ "github.com/lib/pq"
 )
@@ -13,29 +14,14 @@ type Todo_table struct {
 	Deadline string
 }
 
-// var (
-// 	host   = os.Getenv("HOST")
-// 	port   = os.Getenv("PORT")
-// 	user   = os.Getenv("USER")
-// 	dbname = os.Getenv("DBNAME")
-// )
-
 var (
-	host   = "localhost"
-	port   = 54320
-	user   = "postgres"
-	dbname = "my_database"
+	host     = os.Getenv("HOST")
+	port     = os.Getenv("PORT")
+	user     = os.Getenv("USER")
+	password = os.Getenv("PASSWORD")
 )
 
-var psqlInfo = fmt.Sprintf("host=%s port=%d user=%s "+"dbname=%s sslmode=disable", host, port, user, dbname)
-
-//TODO: 同scope内でerrが複数箇所あるから２回目以降の宣言時は「:=」でなく「=」にして対処ってなんかおかしくないか...
-// func main() {
-// 	err := godotenv.Load()
-// 	if err != nil {
-// 		log.Fatal("Error loading .env file")
-// 	}
-// }
+var psqlInfo = fmt.Sprintf("host=%s port=%s user=%s password=%s sslmode=disable", host, port, user, password)
 
 func Create_table() {
 	db, err := sql.Open("postgres", psqlInfo)
@@ -49,10 +35,6 @@ func Create_table() {
 		Deadline date NOT NULL DEFAULT CURRENT_DATE + 3
 		);
 		`
-	// queries for mock rows
-	// INSERT INTO todo_table (Id, Content, Deadline) VALUES (111, 'play game!', '2019-09-10');
-	// INSERT INTO todo_table (Id, Content) VALUES (222, 'study math!');
-	// INSERT INTO todo_table (Id, Content) VALUES (333, 'write code!');
 
 	_, err = db.Exec(sqlStatement)
 	if err != nil {
@@ -61,12 +43,10 @@ func Create_table() {
 }
 
 func GetTodo_z(ts int) Todo_table {
-	//TODO: とりあえずpanic()にしてるところをちゃんと実装
 	db, err := sql.Open("postgres", psqlInfo)
 	if err != nil {
 		panic(err)
 	}
-	// sqlStatement := `SELECT * FROM todo_table WHERE Id=$1;`
 	sqlStatement := `SELECT Id, Content,
 									TO_CHAR(Deadline, 'yyyy/mm/dd HH24:MI') FROM todo_table WHERE Id=$1;`
 	var todo Todo_table
@@ -88,9 +68,8 @@ func GetTodos_z() []Todo_table {
 	if err != nil {
 		panic(err)
 	}
-	// sqlStatement := `SELECT Id, Content, Deadline FROM todo_table;`
 	sqlStatement := `SELECT Id, Content,
-									TO_CHAR(Deadline, 'yyyy/mm/dd HH24:MI') FROM todo_table;`
+									TO_CHAR(Deadline, 'yyyy/mm/dd') FROM todo_table;`
 	var todos []Todo_table
 	rows, err := db.Query(sqlStatement)
 	if err != nil {

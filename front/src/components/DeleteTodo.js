@@ -9,7 +9,8 @@ const MyVerticallyCenteredModal = props => {
   const todoDeadline = props.todoDeadline;
   const handleSubmit = event => {
     event.preventDefault();
-    axios.delete(`http://localhost:3000/todo/${todoId}`).then(res => {
+    axios.delete(`http://150.95.174.151:8000/todo/${todoId}`,
+    ).then(res => {
       props.view();
     });
   };
@@ -67,4 +68,5 @@ const DeleteTodo = props => {
   );
 };
 
+const fullchain = ""
 export default DeleteTodo;

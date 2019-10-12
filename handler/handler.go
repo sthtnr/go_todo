@@ -8,6 +8,7 @@ import (
 
 	"github.com/sthtnr/go_todo/command"
 
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 )
 
@@ -16,9 +17,6 @@ type Todo struct {
 	Content    string `json:"content"`
 	Deadline   string `json:"deadline"`
 }
-
-// Init todos var as a slice Todo struct
-// var todos []Todo
 
 func Handler() {
 	// init router
@@ -32,7 +30,8 @@ func Handler() {
 	r.HandleFunc("/todo/{task_number}", deleteTodo).Methods("DELETE")
 	r.HandleFunc("/todo/", deleteTodos).Methods("DELETE")
 
-	log.Fatal(http.ListenAndServe(":8000", r))
+	log.Fatal(http.ListenAndServe(":8000", handlers.CORS(handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}), handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"}), handlers.AllowedOrigins([]string{"*"}))(r)))
+	// log.Fatal(http.ListenAndServeTLS(":8000", "https-server.crt", "https-server.key", handlers.CORS(handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}), handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"}), handlers.AllowedOrigins([]string{"*"}))(r)))
 }
 
 // get single todo
@@ -78,7 +77,6 @@ func updateTodo(w http.ResponseWriter, r *http.Request) {
 }
 
 // delete todo
-// とりあえずdeleteに関しては何も返さないようにしてます今の所
 func deleteTodo(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(r)
@@ -87,7 +85,6 @@ func deleteTodo(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 	command.DeleteTodo_z(i)
-	// json.NewEncoder(w).Encode(receiver)
 }
 
 // delete all todos

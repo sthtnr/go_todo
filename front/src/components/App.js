@@ -19,6 +19,11 @@ export default class App extends React.Component {
     axios.get('http://150.95.174.151:8000/todo/',
     ).then(res => {
       const todos = res.data;
+      if (todos !== null) {
+        todos.sort((a, b) => {
+          return a.Deadline.localeCompare(b.Deadline);
+        });
+      }
       this.setState({ todos });
     });
   }

@@ -32,7 +32,7 @@ func Create_table() {
 		(
 		Id SERIAL,
 		Content text NOT NULL,
-		Deadline date NOT NULL DEFAULT CURRENT_DATE + 3
+		Deadline time NOT NULL
 		);
 		`
 
@@ -48,7 +48,7 @@ func GetTodo_z(ts int) Todo_table {
 		panic(err)
 	}
 	sqlStatement := `SELECT Id, Content,
-									TO_CHAR(Deadline, 'yyyy/mm/dd HH24:MI') FROM todo_table WHERE Id=$1;`
+									TO_CHAR(Deadline, 'HH24:MI') FROM todo_table WHERE Id=$1;`
 	var todo Todo_table
 	row := db.QueryRow(sqlStatement, ts)
 	err = row.Scan(&todo.Id, &todo.Content, &todo.Deadline)
@@ -69,7 +69,7 @@ func GetTodos_z() []Todo_table {
 		panic(err)
 	}
 	sqlStatement := `SELECT Id, Content,
-									TO_CHAR(Deadline, 'yyyy/mm/dd') FROM todo_table;`
+									TO_CHAR(Deadline, 'HH24:MI') FROM todo_table;`
 	var todos []Todo_table
 	rows, err := db.Query(sqlStatement)
 	if err != nil {

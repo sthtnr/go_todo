@@ -1,17 +1,20 @@
 import React from 'react';
+import moment from 'moment';
+import TimePicker from 'rc-time-picker';
 import axios from 'axios';
 import '../style/App.scss';
 import '../style/MakeTodo.scss';
+import 'rc-time-picker/assets/index.css';
 import { Button, Modal } from 'react-bootstrap';
 
 const MyVerticallyCenteredModal = props => {
   const [content, setContent] = React.useState(null);
-  const [deadline, setDeadline] = React.useState(new Date().toLocaleString());
+  const [deadline, setDeadline] = React.useState('00:00');
   const handleContentChange = event => {
     setContent(event.target.value);
   };
   const handleDeadlineChange = event => {
-    setDeadline(event.target.value);
+    setDeadline(event.format('HH:mm'));
   };
   const handleSubmit = event => {
     event.preventDefault();
@@ -46,7 +49,14 @@ const MyVerticallyCenteredModal = props => {
           </div>
           <div className='control'>
             <label htmlFor='deadline'>締め切り</label>
-            <input type='text' id='deadline' onChange={handleDeadlineChange} />
+            <TimePicker
+              defaultValue={moment('00:00', 'HH:mm')}
+              showSecond={false}
+              allowEmpty={false}
+              minuteStep={5}
+              id='deadline'
+              onChange={handleDeadlineChange}
+            />
           </div>
         </Modal.Body>
         <Modal.Footer>

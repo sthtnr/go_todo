@@ -25,7 +25,7 @@ export default class App extends React.Component {
     return (
       <React.Fragment>
         <header>
-          <h1>Todo App</h1>
+          <h1>TodoApp</h1>
         </header>
         <Container className='container'>
           <main>
@@ -90,7 +90,7 @@ const CardContents = props => {
                   </span>
                 </div>
                 <div className='main__card__inner-second'>
-                  <span>{todo.Deadline}</span>
+                  <span>~{todo.Deadline}</span>
                   <span>
                     <UpdateTodo
                       todoId={todo.Id}

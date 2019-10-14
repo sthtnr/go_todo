@@ -86,7 +86,7 @@ const UpdateTodo = props => {
         className='btn-icon'
         onClick={() => setModalShow(true)}
       >
-        <i className='fa fa-pencil-alt'></i>
+        <i className='fa fa-pencil'></i>
       </button>
       <MyVerticallyCenteredModal
         show={modalShow}

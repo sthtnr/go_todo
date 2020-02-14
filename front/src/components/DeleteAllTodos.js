@@ -1,15 +1,15 @@
-import React from 'react';
-import axios from 'axios';
-import '../style/App.scss';
-import { Button, Modal } from 'react-bootstrap';
+import React from 'react'
+import axios from 'axios'
+import '../style/App.scss'
+import { Button, Modal } from 'react-bootstrap'
 
 const MyVerticallyCenteredModal = props => {
   const handleSubmit = event => {
-    event.preventDefault();
+    event.preventDefault()
     axios.delete('http://150.95.174.151:8000/todo/').then(res => {
-      props.view();
-    });
-  };
+      props.view()
+    })
+  }
   return (
     <Modal
       show={props.show}
@@ -30,11 +30,11 @@ const MyVerticallyCenteredModal = props => {
         </Modal.Footer>
       </form>
     </Modal>
-  );
-};
+  )
+}
 
 const DeleteAllTodos = props => {
-  const [modalShow, setModalShow] = React.useState(false);
+  const [modalShow, setModalShow] = React.useState(false)
 
   return (
     <div>
@@ -52,7 +52,7 @@ const DeleteAllTodos = props => {
         view={props.view}
       />
     </div>
-  );
-};
+  )
+}
 
-export default DeleteAllTodos;
+export default DeleteAllTodos

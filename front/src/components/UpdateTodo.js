@@ -1,35 +1,35 @@
-import React from 'react';
-import moment from 'moment';
-import TimePicker from 'rc-time-picker';
-import axios from 'axios';
-import '../style/App.scss';
-import '../style/MakeTodo.scss';
-import { Button, Modal } from 'react-bootstrap';
+import React from 'react'
+import moment from 'moment'
+import TimePicker from 'rc-time-picker'
+import axios from 'axios'
+import '../style/App.scss'
+import '../style/MakeTodo.scss'
+import { Button, Modal } from 'react-bootstrap'
 
 const MyVerticallyCenteredModal = props => {
-  const todoId = props.todoId;
-  const todoContent = props.todoContent;
-  const todoDeadline = props.todoDeadline;
-  const [Content, setContent] = React.useState(todoContent);
-  const [Deadline, setDeadline] = React.useState(todoDeadline);
+  const todoId = props.todoId
+  const todoContent = props.todoContent
+  const todoDeadline = props.todoDeadline
+  const [Content, setContent] = React.useState(todoContent)
+  const [Deadline, setDeadline] = React.useState(todoDeadline)
   const handleContentChange = event => {
-    setContent(event.target.value);
-  };
+    setContent(event.target.value)
+  }
   const handleDeadlineChange = event => {
-    setDeadline(event.format('HH:mm'));
-  };
+    setDeadline(event.format('HH:mm'))
+  }
   const handleSubmit = event => {
-    event.preventDefault();
+    event.preventDefault()
     const requestData = {
       content: Content,
-      deadline: Deadline,
-    };
+      deadline: Deadline
+    }
     axios
       .put(`http://150.95.174.151:8000/todo/${todoId}`, requestData)
       .then(res => {
-        props.view();
-      });
-  };
+        props.view()
+      })
+  }
   return (
     <Modal
       show={props.show}
@@ -74,11 +74,11 @@ const MyVerticallyCenteredModal = props => {
         </Modal.Footer>
       </form>
     </Modal>
-  );
-};
+  )
+}
 
 const UpdateTodo = props => {
-  const [modalShow, setModalShow] = React.useState(false);
+  const [modalShow, setModalShow] = React.useState(false)
   return (
     <React.Fragment>
       <button
@@ -98,7 +98,7 @@ const UpdateTodo = props => {
         view={props.view}
       />
     </React.Fragment>
-  );
-};
+  )
+}
 
-export default UpdateTodo;
+export default UpdateTodo

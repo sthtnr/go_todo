@@ -1,18 +1,18 @@
-import React from 'react';
-import axios from 'axios';
-import '../style/App.scss';
-import { Button, Modal } from 'react-bootstrap';
+import React from 'react'
+import axios from 'axios'
+import '../style/App.scss'
+import { Button, Modal } from 'react-bootstrap'
 
 const MyVerticallyCenteredModal = props => {
-  const todoId = props.todoId;
-  const todoContent = props.todoContent;
-  const todoDeadline = props.todoDeadline;
+  const todoId = props.todoId
+  const todoContent = props.todoContent
+  const todoDeadline = props.todoDeadline
   const handleSubmit = event => {
-    event.preventDefault();
+    event.preventDefault()
     axios.delete(`http://150.95.174.151:8000/todo/${todoId}`).then(res => {
-      props.view();
-    });
-  };
+      props.view()
+    })
+  }
   return (
     <Modal
       show={props.show}
@@ -38,18 +38,18 @@ const MyVerticallyCenteredModal = props => {
         </Modal.Footer>
       </form>
     </Modal>
-  );
-};
+  )
+}
 
 const DeleteTodo = props => {
-  const [modalShow, setModalShow] = React.useState(false);
+  const [modalShow, setModalShow] = React.useState(false)
   return (
     <React.Fragment>
       <button
         type='button'
         className='btn-icon'
         onClick={() => {
-          setModalShow(true);
+          setModalShow(true)
         }}
       >
         <i className='fa fa-ban' aria-hidden='true'></i>
@@ -64,7 +64,7 @@ const DeleteTodo = props => {
         view={props.view}
       />
     </React.Fragment>
-  );
-};
+  )
+}
 
-export default DeleteTodo;
+export default DeleteTodo

@@ -1,31 +1,30 @@
-import React from 'react';
-import moment from 'moment';
-import axios from 'axios';
-import '../style/App.scss';
-import { Container, Row, Col, Card } from 'react-bootstrap';
-import MakeTodo from './MakeTodo';
-import DeleteAllTodos from './DeleteAllTodos';
-import DeleteTodo from './DeleteTodo';
-import UpdateTodo from './UpdateTodo';
+import React from 'react'
+import moment from 'moment'
+import axios from 'axios'
+import '../style/App.scss'
+import { Container, Row, Col, Card } from 'react-bootstrap'
+import MakeTodo from './MakeTodo'
+import DeleteAllTodos from './DeleteAllTodos'
+import DeleteTodo from './DeleteTodo'
+import UpdateTodo from './UpdateTodo'
 
 export default class App extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      todos: [],
-    };
+      todos: []
+    }
   }
   componentDidMount() {
-    axios.get('http://150.95.174.151:8000/todo/',
-    ).then(res => {
-      const todos = res.data;
+    axios.get('http://150.95.174.151:8000/todo/').then(res => {
+      const todos = res.data
       if (todos !== null) {
         todos.sort((a, b) => {
-          return a.Deadline.localeCompare(b.Deadline);
-        });
+          return a.Deadline.localeCompare(b.Deadline)
+        })
       }
-      this.setState({ todos });
-    });
+      this.setState({ todos })
+    })
   }
   render() {
     return (
@@ -58,20 +57,20 @@ export default class App extends React.Component {
           </main>
         </Container>
       </React.Fragment>
-    );
+    )
   }
 }
 
 const CardContents = props => {
   const handleCheckById = i => {
-    let textStyle = document.getElementById(i).style.textDecoration;
+    let textStyle = document.getElementById(i).style.textDecoration
     if (textStyle === '') {
-      document.getElementById(i).style.textDecoration = 'line-through';
+      document.getElementById(i).style.textDecoration = 'line-through'
     } else {
-      document.getElementById(i).style.textDecoration = '';
+      document.getElementById(i).style.textDecoration = ''
     }
-  };
-  const todoIsNull = props.todoIsNull;
+  }
+  const todoIsNull = props.todoIsNull
   if (todoIsNull) {
     return (
       <Row>
@@ -81,7 +80,7 @@ const CardContents = props => {
           </Card>
         </Col>
       </Row>
-    );
+    )
   }
   return (
     <Row>
@@ -111,7 +110,7 @@ const CardContents = props => {
                       type='button'
                       className='btn-icon'
                       onClick={() => {
-                        handleCheckById(todo.Id);
+                        handleCheckById(todo.Id)
                       }}
                     >
                       <i className='fa fa-check' aria-hidden='true'></i>
@@ -134,5 +133,5 @@ const CardContents = props => {
         </Card>
       </Col>
     </Row>
-  );
-};
+  )
+}

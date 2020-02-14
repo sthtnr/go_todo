@@ -1,31 +1,31 @@
-import React from 'react';
-import moment from 'moment';
-import TimePicker from 'rc-time-picker';
-import axios from 'axios';
-import '../style/App.scss';
-import '../style/MakeTodo.scss';
-import 'rc-time-picker/assets/index.css';
-import { Button, Modal } from 'react-bootstrap';
+import React from 'react'
+import moment from 'moment'
+import TimePicker from 'rc-time-picker'
+import axios from 'axios'
+import '../style/App.scss'
+import '../style/MakeTodo.scss'
+import 'rc-time-picker/assets/index.css'
+import { Button, Modal } from 'react-bootstrap'
 
 const MyVerticallyCenteredModal = props => {
-  const [content, setContent] = React.useState(null);
-  const [deadline, setDeadline] = React.useState('00:00');
+  const [content, setContent] = React.useState(null)
+  const [deadline, setDeadline] = React.useState('00:00')
   const handleContentChange = event => {
-    setContent(event.target.value);
-  };
+    setContent(event.target.value)
+  }
   const handleDeadlineChange = event => {
-    setDeadline(event.format('HH:mm'));
-  };
+    setDeadline(event.format('HH:mm'))
+  }
   const handleSubmit = event => {
-    event.preventDefault();
+    event.preventDefault()
     const requestData = {
       content: content,
-      deadline: deadline,
-    };
+      deadline: deadline
+    }
     axios.post('http://150.95.174.151:8000/todo/', requestData).then(res => {
-      props.view();
-    });
-  };
+      props.view()
+    })
+  }
   return (
     <Modal
       show={props.show}
@@ -66,11 +66,11 @@ const MyVerticallyCenteredModal = props => {
         </Modal.Footer>
       </form>
     </Modal>
-  );
-};
+  )
+}
 
 const MakeTodo = props => {
-  const [modalShow, setModalShow] = React.useState(false);
+  const [modalShow, setModalShow] = React.useState(false)
 
   return (
     <div>
@@ -89,7 +89,7 @@ const MakeTodo = props => {
         view={props.view}
       />
     </div>
-  );
-};
+  )
+}
 
-export default MakeTodo;
+export default MakeTodo

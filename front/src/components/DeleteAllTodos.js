@@ -4,9 +4,10 @@ import '../style/App.scss'
 import { Button, Modal } from 'react-bootstrap'
 
 const MyVerticallyCenteredModal = props => {
+  const BASE_URL = process.env.REACT_APP_BASE_URL
   const handleSubmit = event => {
     event.preventDefault()
-    axios.delete('http://150.95.174.151:8000/todo/').then(res => {
+    axios.delete(BASE_URL).then(res => {
       props.view()
     })
   }

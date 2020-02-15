@@ -7,9 +7,10 @@ const MyVerticallyCenteredModal = props => {
   const todoId = props.todoId
   const todoContent = props.todoContent
   const todoDeadline = props.todoDeadline
+  const BASE_URL = process.env.REACT_APP_BASE_URL
   const handleSubmit = event => {
     event.preventDefault()
-    axios.delete(`http://150.95.174.151:8000/todo/${todoId}`).then(res => {
+    axios.delete(`${BASE_URL}${todoId}`).then(res => {
       props.view()
     })
   }

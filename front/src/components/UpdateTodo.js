@@ -20,15 +20,14 @@ const MyVerticallyCenteredModal = props => {
   }
   const handleSubmit = event => {
     event.preventDefault()
+    const BASE_URL = process.env.REACT_APP_BASE_URL
     const requestData = {
       content: Content,
       deadline: Deadline
     }
-    axios
-      .put(`http://150.95.174.151:8000/todo/${todoId}`, requestData)
-      .then(res => {
-        props.view()
-      })
+    axios.put(`${BASE_URL}${todoId}`, requestData).then(res => {
+      props.view()
+    })
   }
   return (
     <Modal

@@ -16,7 +16,8 @@ export default class App extends React.Component {
     }
   }
   componentDidMount() {
-    axios.get('http://150.95.174.151:8000/todo/').then(res => {
+    const BASE_URL = process.env.REACT_APP_BASE_URL
+    axios.get(BASE_URL).then(res => {
       const todos = res.data
       if (todos !== null) {
         todos.sort((a, b) => {

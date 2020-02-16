@@ -98,7 +98,7 @@ func CreateTodo_z(c string, d string) Todo_table {
 	}
 	sqlStatement := `INSERT INTO todo_table (Content, Deadline)
 	VALUES ($1, $2)
-	RETURNING Id, Content, Deadline;`
+	RETURNING Id, Content, TO_CHAR(Deadline, 'HH24:MI');`
 	var todo Todo_table
 	err = db.QueryRow(sqlStatement, c, d).Scan(&todo.Id, &todo.Content, &todo.Deadline)
 	if err != nil {
@@ -114,7 +114,7 @@ func UpdateTodo_z(t int, c string, d string) Todo_table {
 	}
 	sqlStatement := `UPDATE todo_table SET Content=$2, Deadline=$3
 	WHERE Id = $1
-	RETURNING Id, Content, Deadline;`
+	RETURNING Id, Content, TO_CHAR(Deadline, 'HH24:MI');`
 	var todo Todo_table
 	err = db.QueryRow(sqlStatement, t, c, d).Scan(&todo.Id, &todo.Content, &todo.Deadline)
 	if err != nil {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import moment from 'moment'
 import axios from 'axios'
 import '../style/App.scss'
@@ -8,58 +8,46 @@ import DeleteAllTodos from './DeleteAllTodos'
 import DeleteTodo from './DeleteTodo'
 import UpdateTodo from './UpdateTodo'
 
-export default class App extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      todos: []
-    }
-  }
-  componentDidMount() {
+const App = () => {
+  const [todos, setTodos] = useState([])
+  useEffect(() => {
     const BASE_URL = process.env.REACT_APP_BASE_URL
     axios.get(BASE_URL).then(res => {
-      const todos = res.data
-      if (todos !== null) {
-        todos.sort((a, b) => {
-          return a.Deadline.localeCompare(b.Deadline)
-        })
+      const initialTodos = res.data
+      if (initialTodos !== null) {
+        initialTodos.sort((a, b) => a.Deadline.localeCompare(b.Deadline))
+        setTodos(initialTodos)
+      } else {
+        setTodos([])
       }
-      this.setState({ todos })
     })
-  }
-  render() {
-    return (
-      <>
-        <header>
-          <h1>TodoApp for {moment().format('MM/DD')}</h1>
-        </header>
-        <Container className='container'>
-          <main>
-            <Row>
-              <Col sm={3}></Col>
-              <Col sm={3}>
-                <MakeTodo
-                  todoNextNumber={
-                    this.state.todos === null ? 1 : this.state.todos.length + 1
-                  }
-                  view={this.componentDidMount.bind(this)}
-                />
-              </Col>
-              <Col sm={3}>
-                <DeleteAllTodos view={this.componentDidMount.bind(this)} />
-              </Col>
-              <Col sm={3}></Col>
-            </Row>
-            <CardContents
-              todoIsNull={this.state.todos === null}
-              todos={this.state.todos}
-              view={this.componentDidMount.bind(this)}
-            />
-          </main>
-        </Container>
-      </>
-    )
-  }
+  }, [])
+  return (
+    <>
+      <header>
+        <h1>TodoApp for {moment().format('MM/DD')}</h1>
+      </header>
+      <Container className='container'>
+        <main>
+          <Row>
+            <Col sm={3}></Col>
+            <Col sm={3}>
+              <MakeTodo
+                todoNextNumber={todos === null ? 1 : todos.length + 1}
+                todos={todos}
+                setTodos={setTodos}
+              />
+            </Col>
+            <Col sm={3}>
+              <DeleteAllTodos setTodos={setTodos} />
+            </Col>
+            <Col sm={3}></Col>
+          </Row>
+          <CardContents todos={todos} setTodos={setTodos} />
+        </main>
+      </Container>
+    </>
+  )
 }
 
 const CardContents = props => {
@@ -71,8 +59,7 @@ const CardContents = props => {
       document.getElementById(i).style.textDecoration = ''
     }
   }
-  const todoIsNull = props.todoIsNull
-  if (todoIsNull) {
+  if (props.todos.length === 0) {
     return (
       <Row>
         <Col md={{ span: 6, offset: 3 }}>
@@ -103,7 +90,8 @@ const CardContents = props => {
                       todoIndex={props.todos.indexOf(todo) + 1}
                       todoContent={todo.Content}
                       todoDeadline={todo.Deadline}
-                      view={props.view}
+                      todos={props.todos}
+                      setTodos={props.setTodos}
                     />
                   </span>
                   <span>
@@ -123,7 +111,8 @@ const CardContents = props => {
                       todoIndex={props.todos.indexOf(todo) + 1}
                       todoContent={todo.Content}
                       todoDeadline={todo.Deadline}
-                      view={props.view}
+                      todos={props.todos}
+                      setTodos={props.setTodos}
                     />
                   </span>
                 </div>
@@ -136,3 +125,5 @@ const CardContents = props => {
     </Row>
   )
 }
+
+export default App

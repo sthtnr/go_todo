@@ -8,7 +8,7 @@ const MyVerticallyCenteredModal = props => {
   const handleSubmit = event => {
     event.preventDefault()
     axios.delete(BASE_URL).then(res => {
-      props.view()
+      props.setTodos([])
     })
   }
   return (
@@ -50,7 +50,7 @@ const DeleteAllTodos = props => {
       <MyVerticallyCenteredModal
         show={modalShow}
         onHide={() => setModalShow(false)}
-        view={props.view}
+        setTodos={props.setTodos}
       />
     </div>
   )

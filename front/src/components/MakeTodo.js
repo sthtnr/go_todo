@@ -23,8 +23,8 @@ const MyVerticallyCenteredModal = props => {
       content: content,
       deadline: deadline
     }
-    axios.post(BASE_URL).then(res => {
-      props.view()
+    axios.post(BASE_URL, requestData).then(res => {
+      props.setTodos(props.todos.concat(res.data))
     })
   }
   return (
@@ -87,7 +87,8 @@ const MakeTodo = props => {
         show={modalShow}
         onHide={() => setModalShow(false)}
         todoNextNumber={props.todoNextNumber}
-        view={props.view}
+        todos={props.todos}
+        setTodos={props.setTodos}
       />
     </div>
   )

@@ -45,7 +45,7 @@ const MyVerticallyCenteredModal = props => {
 const DeleteTodo = props => {
   const [modalShow, setModalShow] = React.useState(false)
   return (
-    <React.Fragment>
+    <>
       <button
         type='button'
         className='btn-icon'
@@ -64,7 +64,7 @@ const DeleteTodo = props => {
         todoDeadline={props.todoDeadline}
         view={props.view}
       />
-    </React.Fragment>
+    </>
   )
 }
 

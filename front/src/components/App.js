@@ -29,7 +29,7 @@ export default class App extends React.Component {
   }
   render() {
     return (
-      <React.Fragment>
+      <>
         <header>
           <h1>TodoApp for {moment().format('MM/DD')}</h1>
         </header>
@@ -57,7 +57,7 @@ export default class App extends React.Component {
             />
           </main>
         </Container>
-      </React.Fragment>
+      </>
     )
   }
 }

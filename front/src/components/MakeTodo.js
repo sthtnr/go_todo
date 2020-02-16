@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import moment from 'moment'
 import TimePicker from 'rc-time-picker'
 import axios from 'axios'
@@ -7,12 +7,10 @@ import '../style/MakeTodo.scss'
 import 'rc-time-picker/assets/index.css'
 import { Button, Modal } from 'react-bootstrap'
 
-const MyVerticallyCenteredModal = props => {
-  const [content, setContent] = React.useState(null)
-  const [deadline, setDeadline] = React.useState('00:00')
-  const handleContentChange = event => {
-    setContent(event.target.value)
-  }
+const VerticallyCenteredModal = props => {
+  const [content, setContent] = useState(null)
+  const [deadline, setDeadline] = useState('00:00')
+
   const handleDeadlineChange = event => {
     setDeadline(event.format('HH:mm'))
   }
@@ -20,13 +18,14 @@ const MyVerticallyCenteredModal = props => {
     event.preventDefault()
     const BASE_URL = process.env.REACT_APP_BASE_URL
     const requestData = {
-      content: content,
-      deadline: deadline
+      content,
+      deadline
     }
     axios.post(BASE_URL, requestData).then(res => {
       props.setTodos(props.todos.concat(res.data))
     })
   }
+
   return (
     <Modal
       show={props.show}
@@ -46,7 +45,12 @@ const MyVerticallyCenteredModal = props => {
           </div>
           <div className='control'>
             <label htmlFor='content'>内容</label>
-            <textarea id='content' onChange={handleContentChange} />
+            <textarea
+              id='content'
+              onChange={({ target }) => {
+                setContent(target.value)
+              }}
+            />
           </div>
           <div className='control'>
             <label htmlFor='deadline'>締め切り</label>
@@ -71,7 +75,7 @@ const MyVerticallyCenteredModal = props => {
 }
 
 const MakeTodo = props => {
-  const [modalShow, setModalShow] = React.useState(false)
+  const [modalShow, setModalShow] = useState(false)
 
   return (
     <div>
@@ -83,7 +87,7 @@ const MakeTodo = props => {
         作成
       </Button>
 
-      <MyVerticallyCenteredModal
+      <VerticallyCenteredModal
         show={modalShow}
         onHide={() => setModalShow(false)}
         todoNextNumber={props.todoNextNumber}

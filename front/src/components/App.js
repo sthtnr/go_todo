@@ -10,6 +10,7 @@ import UpdateTodo from './UpdateTodo'
 
 const App = () => {
   const [todos, setTodos] = useState([])
+
   useEffect(() => {
     const BASE_URL = process.env.REACT_APP_BASE_URL
     axios.get(BASE_URL).then(res => {
@@ -22,6 +23,7 @@ const App = () => {
       }
     })
   }, [])
+
   return (
     <>
       <header>
@@ -43,14 +45,32 @@ const App = () => {
             </Col>
             <Col sm={3}></Col>
           </Row>
-          <CardContents todos={todos} setTodos={setTodos} />
+          <div>
+            {todos.length === 0 ? (
+              <WhenTodosIsNull />
+            ) : (
+              <WhenTodosIsNotNull todos={todos} setTodos={setTodos} />
+            )}
+          </div>
         </main>
       </Container>
     </>
   )
 }
 
-const CardContents = props => {
+const WhenTodosIsNull = () => {
+  return (
+    <Row>
+      <Col md={{ span: 6, offset: 3 }}>
+        <Card className='main__card'>
+          <Card.Body>現在Todoはありません</Card.Body>
+        </Card>
+      </Col>
+    </Row>
+  )
+}
+
+const WhenTodosIsNotNull = props => {
   const handleCheckById = i => {
     let textStyle = document.getElementById(i).style.textDecoration
     if (textStyle === '') {
@@ -59,17 +79,7 @@ const CardContents = props => {
       document.getElementById(i).style.textDecoration = ''
     }
   }
-  if (props.todos.length === 0) {
-    return (
-      <Row>
-        <Col md={{ span: 6, offset: 3 }}>
-          <Card className='main__card'>
-            <Card.Body>現在Todoはありません</Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    )
-  }
+
   return (
     <Row>
       <Col md={{ span: 6, offset: 3 }}>

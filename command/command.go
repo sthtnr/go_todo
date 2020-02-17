@@ -9,9 +9,9 @@ import (
 )
 
 type Todo_table struct {
-	Id       int
-	Content  string
-	Deadline string
+	Id       int    `json:"id"`
+	Content  string `json:"content"`
+	Deadline string `json:"deadline"`
 }
 
 var (

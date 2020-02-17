@@ -27,7 +27,7 @@ const MyVerticallyCenteredModal = props => {
     }
     axios.put(`${BASE_URL}${todoId}`, requestData).then(res => {
       props.setTodos(
-        props.todos.map(todo => (todo.Id !== todoId ? todo : res.data))
+        props.todos.map(todo => (todo.id !== todoId ? todo : res.data))
       )
     })
   }

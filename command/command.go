@@ -24,52 +24,11 @@ var (
 var psqlInfo = fmt.Sprintf("host=%s port=%s user=%s password=%s sslmode=disable", host, port, user, password)
 
 func GetTodo_z(ts int) Todo_table {
-	db, err := sql.Open("postgres", psqlInfo)
-	if err != nil {
-		panic(err)
-	}
-	sqlStatement := `SELECT Id, Content,
-									TO_CHAR(Deadline, 'HH24:MI') FROM todo_table WHERE Id=$1;`
-	var todo Todo_table
-	row := db.QueryRow(sqlStatement, ts)
-	err = row.Scan(&todo.Id, &todo.Content, &todo.Deadline)
-	switch err {
-	case sql.ErrNoRows:
-		fmt.Println("No rows were returned!")
-		panic(err)
-	case nil:
-		return todo
-	default:
-		panic(err)
-	}
+	return Todo_table{1, "hogehoge", "2020/02/17"}
 }
 
 func GetTodos_z() []Todo_table {
-	db, err := sql.Open("postgres", psqlInfo)
-	if err != nil {
-		panic(err)
-	}
-	sqlStatement := `SELECT Id, Content,
-									TO_CHAR(Deadline, 'HH24:MI') FROM todo_table;`
-	var todos []Todo_table
-	rows, err := db.Query(sqlStatement)
-	if err != nil {
-		panic(err)
-	}
-	defer db.Close()
-	for rows.Next() {
-		var todo Todo_table
-		err = rows.Scan(&todo.Id, &todo.Content, &todo.Deadline)
-		if err != nil {
-			panic(err)
-		}
-		todos = append(todos, todo)
-	}
-	err = rows.Err()
-	if err != nil {
-		panic(err)
-	}
-	return todos
+	return []Todo_table{{1, "hogehoge", "2020/02/17"}, {2, "fugafuga", "2020/02/18"}}
 }
 
 func CreateTodo_z(c string, d string) Todo_table {

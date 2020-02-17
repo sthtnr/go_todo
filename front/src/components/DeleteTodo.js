@@ -11,7 +11,7 @@ const MyVerticallyCenteredModal = props => {
   const handleSubmit = event => {
     event.preventDefault()
     axios.delete(`${BASE_URL}${todoId}`).then(res => {
-      props.setTodos(props.todos.filter(todo => todo.Id !== todoId))
+      props.setTodos(props.todos.filter(todo => todo.id !== todoId))
     })
   }
   return (

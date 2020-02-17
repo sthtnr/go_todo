@@ -16,7 +16,7 @@ const App = () => {
     axios.get(BASE_URL).then(res => {
       const initialTodos = res.data
       if (initialTodos !== null) {
-        initialTodos.sort((a, b) => a.Deadline.localeCompare(b.Deadline))
+        initialTodos.sort((a, b) => a.deadline.localeCompare(b.deadline))
         setTodos(initialTodos)
       } else {
         setTodos([])
@@ -86,20 +86,20 @@ const WhenTodosIsNotNull = props => {
         <Card className='main__card'>
           <Card.Body>
             {props.todos.map(todo => (
-              <div key={todo.Id}>
+              <div key={todo.id}>
                 <div className='main__card__inner-first'>
-                  <span id={todo.Id}>
-                    {props.todos.indexOf(todo) + 1}: {todo.Content}
+                  <span id={todo.id}>
+                    {props.todos.indexOf(todo) + 1}: {todo.content}
                   </span>
                 </div>
                 <div className='main__card__inner-second'>
-                  <span>~{todo.Deadline}</span>
+                  <span>~{todo.deadline}</span>
                   <span>
                     <UpdateTodo
-                      todoId={todo.Id}
+                      todoId={todo.id}
                       todoIndex={props.todos.indexOf(todo) + 1}
-                      todoContent={todo.Content}
-                      todoDeadline={todo.Deadline}
+                      todoContent={todo.content}
+                      todoDeadline={todo.deadline}
                       todos={props.todos}
                       setTodos={props.setTodos}
                     />
@@ -109,7 +109,7 @@ const WhenTodosIsNotNull = props => {
                       type='button'
                       className='btn-icon'
                       onClick={() => {
-                        handleCheckById(todo.Id)
+                        handleCheckById(todo.id)
                       }}
                     >
                       <i className='fa fa-check' aria-hidden='true'></i>
@@ -117,10 +117,10 @@ const WhenTodosIsNotNull = props => {
                   </span>
                   <span>
                     <DeleteTodo
-                      todoId={todo.Id}
+                      todoId={todo.id}
                       todoIndex={props.todos.indexOf(todo) + 1}
-                      todoContent={todo.Content}
-                      todoDeadline={todo.Deadline}
+                      todoContent={todo.content}
+                      todoDeadline={todo.deadline}
                       todos={props.todos}
                       setTodos={props.setTodos}
                     />

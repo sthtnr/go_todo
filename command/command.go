@@ -23,25 +23,6 @@ var (
 
 var psqlInfo = fmt.Sprintf("host=%s port=%s user=%s password=%s sslmode=disable", host, port, user, password)
 
-func Create_table() {
-	db, err := sql.Open("postgres", psqlInfo)
-	if err != nil {
-		panic(err)
-	}
-	sqlStatement := `CREATE TABLE IF NOT EXISTS todo_table
-		(
-		Id SERIAL,
-		Content text NOT NULL,
-		Deadline time NOT NULL
-		);
-		`
-
-	_, err = db.Exec(sqlStatement)
-	if err != nil {
-		panic(err)
-	}
-}
-
 func GetTodo_z(ts int) Todo_table {
 	db, err := sql.Open("postgres", psqlInfo)
 	if err != nil {

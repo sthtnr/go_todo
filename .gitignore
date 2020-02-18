@@ -1,5 +1,4 @@
-.env
-.env.list
+.env*
 .vscode
 .DS_Store
 todo_app

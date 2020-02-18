@@ -19,9 +19,10 @@ var (
 	port     = os.Getenv("PORT")
 	user     = os.Getenv("USER")
 	password = os.Getenv("PASSWORD")
+	dbname   = os.Getenv("DBNAME")
 )
 
-var psqlInfo = fmt.Sprintf("host=%s port=%s user=%s password=%s sslmode=disable", host, port, user, password)
+var psqlInfo = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
 
 func GetTodo_z(ts int) Todo_table {
 	return Todo_table{1, "hogehoge", "2020/02/17"}

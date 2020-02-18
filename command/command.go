@@ -29,7 +29,32 @@ func GetTodo_z(ts int) Todo_table {
 }
 
 func GetTodos_z() []Todo_table {
-	return []Todo_table{{1, "hogehoge", "2020/02/17"}, {2, "fugafuga", "2020/02/18"}}
+	fmt.Println(psqlInfo)
+	db, err := sql.Open("postgres", psqlInfo)
+	if err != nil {
+		panic(err)
+	}
+	sqlStatement := `SELECT Id, Content,
+									TO_CHAR(Deadline, 'HH24:MI') FROM todo_table;`
+	var todos []Todo_table
+	rows, err := db.Query(sqlStatement)
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+	for rows.Next() {
+		var todo Todo_table
+		err = rows.Scan(&todo.Id, &todo.Content, &todo.Deadline)
+		if err != nil {
+			panic(err)
+		}
+		todos = append(todos, todo)
+	}
+	err = rows.Err()
+	if err != nil {
+		panic(err)
+	}
+	return todos
 }
 
 func CreateTodo_z(c string, d string) Todo_table {

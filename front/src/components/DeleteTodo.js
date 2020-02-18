@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import axios from 'axios'
 import '../style/App.scss'
 import { Button, Modal } from 'react-bootstrap'
 
-const MyVerticallyCenteredModal = props => {
+const VerticallyCenteredModal = props => {
   const todoId = props.todoId
   const todoContent = props.todoContent
   const todoDeadline = props.todoDeadline
@@ -14,6 +14,7 @@ const MyVerticallyCenteredModal = props => {
       props.setTodos(props.todos.filter(todo => todo.Id !== todoId))
     })
   }
+
   return (
     <Modal
       show={props.show}
@@ -43,7 +44,8 @@ const MyVerticallyCenteredModal = props => {
 }
 
 const DeleteTodo = props => {
-  const [modalShow, setModalShow] = React.useState(false)
+  const [modalShow, setModalShow] = useState(false)
+
   return (
     <>
       <button
@@ -55,7 +57,7 @@ const DeleteTodo = props => {
       >
         <i className='fa fa-ban' aria-hidden='true'></i>
       </button>
-      <MyVerticallyCenteredModal
+      <VerticallyCenteredModal
         show={modalShow}
         onHide={() => setModalShow(false)}
         todoId={props.todoId}

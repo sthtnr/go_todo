@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import moment from 'moment'
 import TimePicker from 'rc-time-picker'
 import axios from 'axios'
@@ -6,15 +6,13 @@ import '../style/App.scss'
 import '../style/MakeTodo.scss'
 import { Button, Modal } from 'react-bootstrap'
 
-const MyVerticallyCenteredModal = props => {
+const VerticallyCenteredModal = props => {
+  const [content, setContent] = useState(todoContent)
+  const [deadline, setDeadline] = useState(todoDeadline)
+
   const todoId = props.todoId
   const todoContent = props.todoContent
   const todoDeadline = props.todoDeadline
-  const [Content, setContent] = React.useState(todoContent)
-  const [Deadline, setDeadline] = React.useState(todoDeadline)
-  const handleContentChange = event => {
-    setContent(event.target.value)
-  }
   const handleDeadlineChange = event => {
     setDeadline(event.format('HH:mm'))
   }
@@ -22,8 +20,8 @@ const MyVerticallyCenteredModal = props => {
     event.preventDefault()
     const BASE_URL = process.env.REACT_APP_BASE_URL
     const requestData = {
-      content: Content,
-      deadline: Deadline
+      content,
+      deadline
     }
     axios.put(`${BASE_URL}${todoId}`, requestData).then(res => {
       props.setTodos(
@@ -31,6 +29,7 @@ const MyVerticallyCenteredModal = props => {
       )
     })
   }
+
   return (
     <Modal
       show={props.show}
@@ -53,7 +52,9 @@ const MyVerticallyCenteredModal = props => {
             <textarea
               id='content'
               placeholder={todoContent}
-              onChange={handleContentChange}
+              onChange={({ target }) => {
+                setContent(target.value)
+              }}
             />
           </div>
           <div className='control'>
@@ -79,7 +80,8 @@ const MyVerticallyCenteredModal = props => {
 }
 
 const UpdateTodo = props => {
-  const [modalShow, setModalShow] = React.useState(false)
+  const [modalShow, setModalShow] = useState(false)
+
   return (
     <>
       <button
@@ -89,7 +91,7 @@ const UpdateTodo = props => {
       >
         <i className='fa fa-pencil'></i>
       </button>
-      <MyVerticallyCenteredModal
+      <VerticallyCenteredModal
         show={modalShow}
         onHide={() => setModalShow(false)}
         todoId={props.todoId}

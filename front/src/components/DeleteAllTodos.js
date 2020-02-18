@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import axios from 'axios'
 import '../style/App.scss'
 import { Button, Modal } from 'react-bootstrap'
 
-const MyVerticallyCenteredModal = props => {
+const VerticallyCenteredModal = props => {
   const BASE_URL = process.env.REACT_APP_BASE_URL
   const handleSubmit = event => {
     event.preventDefault()
@@ -11,6 +11,7 @@ const MyVerticallyCenteredModal = props => {
       props.setTodos([])
     })
   }
+
   return (
     <Modal
       show={props.show}
@@ -35,7 +36,7 @@ const MyVerticallyCenteredModal = props => {
 }
 
 const DeleteAllTodos = props => {
-  const [modalShow, setModalShow] = React.useState(false)
+  const [modalShow, setModalShow] = useState(false)
 
   return (
     <div>
@@ -47,7 +48,7 @@ const DeleteAllTodos = props => {
         全て消去
       </Button>
 
-      <MyVerticallyCenteredModal
+      <VerticallyCenteredModal
         show={modalShow}
         onHide={() => setModalShow(false)}
         setTodos={props.setTodos}

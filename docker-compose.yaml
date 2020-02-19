@@ -1,0 +1,38 @@
+version: '3'
+volumes:
+  hoge:
+services:
+  db:
+    build: ./docker/postgres/
+    container_name: 'my_psql'
+    ports:
+      - 15432:5432
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=simple_todo_db
+  app:
+    build: .
+    container_name: 'my_app'
+    ports:
+      - 8000:8000
+    env_file:
+      - .env.db
+  node:
+    build: ./docker/node/
+    container_name: 'my_node'
+    volumes:
+      - ./front:/app
+      - hoge:/app/node_modules
+    command: sh -c "apk --no-cache add --virtual native-deps g++ gcc libgcc libstdc++ linux-headers make python && npm install --quiet node-gyp -g && npm install --quiet && cd /app && npm install && npm start && apk del native-deps"
+  proxy:
+    build: ./docker/nginx/
+    container_name: 'my_nginx'
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+    links:
+      - 'app'
+      - 'node'

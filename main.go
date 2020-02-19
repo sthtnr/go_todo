@@ -1,11 +1,12 @@
 package main
 
 import (
-	"github.com/sthtnr/go_todo/command"
+	"fmt"
+
 	"github.com/sthtnr/go_todo/handler"
 )
 
 func main() {
-	command.Create_table()
+	fmt.Println("server start!!")
 	handler.Handler()
 }

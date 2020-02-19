@@ -9,9 +9,9 @@ import (
 )
 
 type Todo_table struct {
-	Id       int
-	Content  string
-	Deadline string
+	Id       int    `json:"id"`
+	Content  string `json:"content"`
+	Deadline string `json:"deadline"`
 }
 
 var (
@@ -19,51 +19,17 @@ var (
 	port     = os.Getenv("PORT")
 	user     = os.Getenv("USER")
 	password = os.Getenv("PASSWORD")
+	dbname   = os.Getenv("DBNAME")
 )
 
-var psqlInfo = fmt.Sprintf("host=%s port=%s user=%s password=%s sslmode=disable", host, port, user, password)
-
-func Create_table() {
-	db, err := sql.Open("postgres", psqlInfo)
-	if err != nil {
-		panic(err)
-	}
-	sqlStatement := `CREATE TABLE IF NOT EXISTS todo_table
-		(
-		Id SERIAL,
-		Content text NOT NULL,
-		Deadline time NOT NULL
-		);
-		`
-
-	_, err = db.Exec(sqlStatement)
-	if err != nil {
-		panic(err)
-	}
-}
+var psqlInfo = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
 
 func GetTodo_z(ts int) Todo_table {
-	db, err := sql.Open("postgres", psqlInfo)
-	if err != nil {
-		panic(err)
-	}
-	sqlStatement := `SELECT Id, Content,
-									TO_CHAR(Deadline, 'HH24:MI') FROM todo_table WHERE Id=$1;`
-	var todo Todo_table
-	row := db.QueryRow(sqlStatement, ts)
-	err = row.Scan(&todo.Id, &todo.Content, &todo.Deadline)
-	switch err {
-	case sql.ErrNoRows:
-		fmt.Println("No rows were returned!")
-		panic(err)
-	case nil:
-		return todo
-	default:
-		panic(err)
-	}
+	return Todo_table{1, "hogehoge", "2020/02/17"}
 }
 
 func GetTodos_z() []Todo_table {
+	fmt.Println(psqlInfo)
 	db, err := sql.Open("postgres", psqlInfo)
 	if err != nil {
 		panic(err)

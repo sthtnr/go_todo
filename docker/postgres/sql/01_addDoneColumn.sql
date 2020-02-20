@@ -1,0 +1,1 @@
+ALTER TABLE todo_table ADD COLUMN done boolean NOT NULL;

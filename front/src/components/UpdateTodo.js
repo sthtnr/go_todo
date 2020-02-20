@@ -7,12 +7,11 @@ import '../style/MakeTodo.scss'
 import { Button, Modal } from 'react-bootstrap'
 
 const VerticallyCenteredModal = props => {
-  const [content, setContent] = useState(todoContent)
-  const [deadline, setDeadline] = useState(todoDeadline)
-
   const todoId = props.todoId
   const todoContent = props.todoContent
   const todoDeadline = props.todoDeadline
+  const [content, setContent] = useState(todoContent)
+  const [deadline, setDeadline] = useState(todoDeadline)
   const handleDeadlineChange = event => {
     setDeadline(event.format('HH:mm'))
   }

@@ -71,15 +71,6 @@ const WhenTodosIsNull = () => {
 }
 
 const WhenTodosIsNotNull = props => {
-  const handleCheckById = i => {
-    let textStyle = document.getElementById(i).style.textDecoration
-    if (textStyle === '') {
-      document.getElementById(i).style.textDecoration = 'line-through'
-    } else {
-      document.getElementById(i).style.textDecoration = ''
-    }
-  }
-
   return (
     <Row>
       <Col md={{ span: 6, offset: 3 }}>
@@ -103,15 +94,11 @@ const WhenTodosIsNotNull = props => {
                     />
                   </span>
                   <span>
-                    <button
-                      type='button'
-                      className='btn-icon'
-                      onClick={() => {
-                        handleCheckById(todo.id)
-                      }}
-                    >
-                      <i className='fa fa-check' aria-hidden='true'></i>
-                    </button>
+                    <CheckTodo
+                      todo={todo}
+                      todos={props.todos}
+                      setTodos={props.setTodos}
+                    />
                   </span>
                   <span>
                     <DeleteTodo
@@ -131,6 +118,32 @@ const WhenTodosIsNotNull = props => {
         </Card>
       </Col>
     </Row>
+  )
+}
+
+const CheckTodo = props => {
+  const handleCheckById = todo => {
+    const BASE_URL = process.env.REACT_APP_BASE_URL
+    const requestData = {
+      content: todo.content,
+      deadline: todo.deadline,
+      done: !todo.done
+    }
+    axios.put(`${BASE_URL}${todo.id}`, requestData).then(res => {
+      props.setTodos(props.todos.map(t => (t.id !== todo.id ? t : res.data)))
+    })
+  }
+
+  return (
+    <button
+      type='button'
+      className='btn-icon'
+      onClick={() => {
+        handleCheckById(props.todo)
+      }}
+    >
+      <i className='fa fa-check' aria-hidden='true'></i>
+    </button>
   )
 }
 

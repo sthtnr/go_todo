@@ -75,16 +75,16 @@ func GetTodos_z() []Todo_table {
 	return todos
 }
 
-func CreateTodo_z(c string, d string) Todo_table {
+func CreateTodo_z(c string, d string, dn bool) Todo_table {
 	db, err := sql.Open("postgres", psqlInfo)
 	if err != nil {
 		panic(err)
 	}
-	sqlStatement := `INSERT INTO todo_table (Content, Deadline)
-	VALUES ($1, $2)
-	RETURNING Id, Content, TO_CHAR(Deadline, 'HH24:MI');`
+	sqlStatement := `INSERT INTO todo_table (Content, Deadline, Done)
+	VALUES ($1, $2, $3)
+	RETURNING Id, Content, TO_CHAR(Deadline, 'HH24:MI'), Done;`
 	var todo Todo_table
-	err = db.QueryRow(sqlStatement, c, d).Scan(&todo.Id, &todo.Content, &todo.Deadline)
+	err = db.QueryRow(sqlStatement, c, d, dn).Scan(&todo.Id, &todo.Content, &todo.Deadline, &todo.Done)
 	if err != nil {
 		panic(err)
 	}

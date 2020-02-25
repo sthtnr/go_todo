@@ -19,7 +19,8 @@ const VerticallyCenteredModal = props => {
     const BASE_URL = process.env.REACT_APP_BASE_URL
     const requestData = {
       content,
-      deadline
+      deadline,
+      done: false
     }
     axios.post(BASE_URL, requestData).then(res => {
       props.setTodos(props.todos.concat(res.data))

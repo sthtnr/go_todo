@@ -88,9 +88,7 @@ const WhenTodosIsNotNull = props => {
             {props.todos.map(todo => (
               <div key={todo.id}>
                 <div className='main__card__inner-first'>
-                  <span id={todo.id}>
-                    {props.todos.indexOf(todo) + 1}: {todo.content}
-                  </span>
+                  <DisplayTodo todo={todo} todos={props.todos} />
                 </div>
                 <div className='main__card__inner-second'>
                   <span>~{todo.deadline}</span>
@@ -133,6 +131,18 @@ const WhenTodosIsNotNull = props => {
         </Card>
       </Col>
     </Row>
+  )
+}
+
+const DisplayTodo = props => {
+  const visibleWhenIsNotDone = {
+    textDecoration: props.todo.done ? 'line-through' : ''
+  }
+  return (
+    <span id={props.todo.id}>
+      {props.todos.indexOf(props.todo) + 1}:
+      <span style={visibleWhenIsNotDone}> {props.todo.content}</span>
+    </span>
   )
 }
 

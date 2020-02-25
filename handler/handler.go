@@ -16,6 +16,7 @@ type Todo struct {
 	Tasknumber string `json:"task_number"`
 	Content    string `json:"content"`
 	Deadline   string `json:"deadline"`
+	Done       bool   `json:"done"`
 }
 
 func Handler() {
@@ -72,7 +73,7 @@ func updateTodo(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	receiver := command.UpdateTodo_z(i, todo.Content, todo.Deadline)
+	receiver := command.UpdateTodo_z(i, todo.Content, todo.Deadline, todo.Done)
 	json.NewEncoder(w).Encode(receiver)
 }
 

@@ -12,6 +12,7 @@ type Todo_table struct {
 	Id       int    `json:"id"`
 	Content  string `json:"content"`
 	Deadline string `json:"deadline"`
+	Done     bool   `json:"done"`
 }
 
 var (
@@ -25,7 +26,24 @@ var (
 var psqlInfo = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
 
 func GetTodo_z(ts int) Todo_table {
-	return Todo_table{1, "hogehoge", "2020/02/17"}
+	db, err := sql.Open("postgres", psqlInfo)
+	if err != nil {
+		panic(err)
+	}
+	sqlStatement := `SELECT Id, Content,
+									TO_CHAR(Deadline, 'HH24:MI'), Done FROM todo_table WHERE Id=$1;`
+	var todo Todo_table
+	row := db.QueryRow(sqlStatement, ts)
+	err = row.Scan(&todo.Id, &todo.Content, &todo.Deadline, &todo.Done)
+	switch err {
+	case sql.ErrNoRows:
+		fmt.Println("No rows were returned!")
+		panic(err)
+	case nil:
+		return todo
+	default:
+		panic(err)
+	}
 }
 
 func GetTodos_z() []Todo_table {
@@ -35,7 +53,7 @@ func GetTodos_z() []Todo_table {
 		panic(err)
 	}
 	sqlStatement := `SELECT Id, Content,
-									TO_CHAR(Deadline, 'HH24:MI') FROM todo_table;`
+									TO_CHAR(Deadline, 'HH24:MI'), Done FROM todo_table;`
 	var todos []Todo_table
 	rows, err := db.Query(sqlStatement)
 	if err != nil {
@@ -44,7 +62,7 @@ func GetTodos_z() []Todo_table {
 	defer db.Close()
 	for rows.Next() {
 		var todo Todo_table
-		err = rows.Scan(&todo.Id, &todo.Content, &todo.Deadline)
+		err = rows.Scan(&todo.Id, &todo.Content, &todo.Deadline, &todo.Done)
 		if err != nil {
 			panic(err)
 		}
@@ -73,16 +91,16 @@ func CreateTodo_z(c string, d string) Todo_table {
 	return todo
 }
 
-func UpdateTodo_z(t int, c string, d string) Todo_table {
+func UpdateTodo_z(t int, c string, d string, dn bool) Todo_table {
 	db, err := sql.Open("postgres", psqlInfo)
 	if err != nil {
 		panic(err)
 	}
-	sqlStatement := `UPDATE todo_table SET Content=$2, Deadline=$3
+	sqlStatement := `UPDATE todo_table SET Content=$2, Deadline=$3, Done=$4
 	WHERE Id = $1
-	RETURNING Id, Content, TO_CHAR(Deadline, 'HH24:MI');`
+	RETURNING Id, Content, TO_CHAR(Deadline, 'HH24:MI'), Done;`
 	var todo Todo_table
-	err = db.QueryRow(sqlStatement, t, c, d).Scan(&todo.Id, &todo.Content, &todo.Deadline)
+	err = db.QueryRow(sqlStatement, t, c, d, dn).Scan(&todo.Id, &todo.Content, &todo.Deadline, &todo.Done)
 	if err != nil {
 		panic(err)
 	}
